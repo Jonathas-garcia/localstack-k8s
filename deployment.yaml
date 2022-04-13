@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: localstack-dp
+  labels:
+    app: localstack
+    type: localstack-demo
+spec:
+  template:
+    metadata:
+      name: localstack-pod
+      labels:
+        app: localstack
+        type: localstack-demo
+    spec:
+      containers:
+        - name: localstack-container
+          image: localstack/localstack
+          ports:
+            - containerPort: 4566
+            - containerPort: 4576
+            - containerPort: 32000
+  selector:
+    matchLabels:
+      type: localstack-demo
+  replicas: 1

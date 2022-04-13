@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: localstack-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  labels:
+      name: localstack-ingress
+spec:
+  rules:
+   - host: "localstack.com"
+     http:
+      paths:
+      - pathType: Prefix
+        path: /sqs(/|$)(.*)
+        backend:
+          service:
+            name: localstack-svc
+            port:
+              number: 4566
